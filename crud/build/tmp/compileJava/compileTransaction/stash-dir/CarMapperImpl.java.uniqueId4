@@ -1,0 +1,67 @@
+package com.invertor.crud.mapper;
+
+import com.invertor.crud.dto.CarDTO;
+import com.invertor.crud.entity.Brand;
+import com.invertor.crud.entity.Car;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2023-10-17T20:15:52+0300",
+    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.3.jar, environment: Java 17.0.4.1 (Oracle Corporation)"
+)
+@Component
+public class CarMapperImpl implements CarMapper {
+
+    @Override
+    public CarDTO toCarDto(Car car) {
+        if ( car == null ) {
+            return null;
+        }
+
+        Integer year = null;
+        String brand = null;
+        Long id = null;
+        String model = null;
+
+        year = car.getYearOfManufacture();
+        brand = carBrandName( car );
+        id = car.getId();
+        model = car.getModel();
+
+        CarDTO carDTO = new CarDTO( id, brand, model, year );
+
+        return carDTO;
+    }
+
+    @Override
+    public Car toCar(CarDTO carDTO) {
+        if ( carDTO == null ) {
+            return null;
+        }
+
+        Car car = new Car();
+
+        car.setYearOfManufacture( carDTO.year() );
+        car.setId( carDTO.id() );
+        car.setModel( carDTO.model() );
+
+        return car;
+    }
+
+    private String carBrandName(Car car) {
+        if ( car == null ) {
+            return null;
+        }
+        Brand brand = car.getBrand();
+        if ( brand == null ) {
+            return null;
+        }
+        String name = brand.getName();
+        if ( name == null ) {
+            return null;
+        }
+        return name;
+    }
+}
